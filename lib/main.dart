@@ -1,25 +1,29 @@
 import 'package:fidea_app/views/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:json_theme/json_theme.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'package:flutter/services.dart'; // For rootBundle
+import 'dart:convert'; // For jsonDecode
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final themeStr = await rootBundle.loadString('assets/appainter_theme.json');
+  final themeJson = jsonDecode(themeStr);
+  final theme = ThemeDecoder.decodeThemeData(themeJson)!;
+
+  runApp(MyApp(theme: theme));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final ThemeData theme;
+
+  const MyApp({super.key, required this.theme});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Note Taking App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
-    );
+        home: HomePage(), theme: theme);
   }
 }
-
-
