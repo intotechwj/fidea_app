@@ -1,9 +1,8 @@
 import 'package:fidea_app/views/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:json_theme/json_theme.dart';
-
-import 'package:flutter/services.dart'; // For rootBundle
-import 'dart:convert'; // For jsonDecode
+import 'package:flutter/services.dart';
+import 'dart:convert';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +22,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-        home: HomePage(), theme: theme);
+        debugShowCheckedModeBanner: false, home: HomePage(), theme: theme);
   }
 }
