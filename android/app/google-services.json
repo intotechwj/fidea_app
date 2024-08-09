@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "297565893940",
-    "project_id": "fideaapp-9ea59",
-    "storage_bucket": "fideaapp-9ea59.appspot.com"
+    "project_number": "892223302158",
+    "project_id": "fidea-d859c",
+    "storage_bucket": "fidea-d859c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:297565893940:android:81bb81e46c8ee41462e161",
+        "mobilesdk_app_id": "1:892223302158:android:f47a20082413fbe53bea5f",
         "android_client_info": {
           "package_name": "com.example.fidea_app"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB405Wg-3AM1osDk34rzSPFCc0oEpHRLOs"
+          "current_key": "AIzaSyAzp5xgNHbpVywphMTGcN6c9KsAE5js_m8"
         }
       ],
       "services": {
