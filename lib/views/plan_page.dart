@@ -10,6 +10,6 @@ class PlanPage extends StatefulWidget {
 class _PlanPageState extends State<PlanPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(color: Colors.deepOrange);
   }
 }

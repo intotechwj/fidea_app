@@ -10,6 +10,6 @@ class ControlPage extends StatefulWidget {
 class _ControlPageState extends State<ControlPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(color: Colors.purple);
   }
 }
