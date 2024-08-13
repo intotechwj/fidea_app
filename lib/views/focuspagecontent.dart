@@ -2,7 +2,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class FocusPageContent extends StatefulWidget {
-  const FocusPageContent({super.key});
+  final String? noteId;
+  final String? content;
+
+  const FocusPageContent({super.key, this.noteId, this.content});
 
   @override
   State<FocusPageContent> createState() => _FocusPageContentState();
@@ -16,7 +19,7 @@ class _FocusPageContentState extends State<FocusPageContent> {
   void initState() {
     super.initState();
     dbRef = FirebaseDatabase.instance.ref().child('notes');
-    _noteController = TextEditingController();
+    _noteController = TextEditingController(text: widget.content);
   }
 
   @override
@@ -25,15 +28,25 @@ class _FocusPageContentState extends State<FocusPageContent> {
     super.dispose();
   }
 
-  // Madde başlığı ekleyen fonksiyon
   String formatNotes(String notes) {
     final lines = notes.split('\n');
     return lines.asMap().entries.map((entry) {
       final index = entry.key + 1;
       final line = entry.value;
-      return '$index) $line';
+
+      // Eğer satır boşsa olduğu gibi bırak
+      if (line.isEmpty) return line;
+
+      // Satır bir sayı ile başlıyorsa, sadece numaralandır ve boşluk ekle
+      if (RegExp(r'^\d+|\*').hasMatch(line)) {
+        return line;
+      } else {
+        // Satır bir sayı ile başlamıyorsa başına * koy ve numaralandır
+        return '$index) $line\n\n\n\n\n\n';
+      }
     }).join('\n');
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +61,7 @@ class _FocusPageContentState extends State<FocusPageContent> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   controller: _noteController,
-                  maxLines: 35,
+                  maxLines: 25,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Buraya yazın...',
@@ -60,20 +73,24 @@ class _FocusPageContentState extends State<FocusPageContent> {
               ElevatedButton(
                 onPressed: () async {
                   try {
-                    // Kullanıcının yazdığı metni madde başlıklarıyla biçimlendir
                     final formattedNotes = formatNotes(_noteController.text);
-      
+
                     Map<String, String> notes = {
                       'NOTE': formattedNotes,
                     };
-      
-                    // Veriyi Realtime Database'e ekle
-                    await dbRef.push().set(notes);
-      
+
+                    if (widget.noteId != null) {
+                      // Note güncellenmesi
+                      await dbRef.child(widget.noteId!).update(notes);
+                    } else {
+                      // Yeni note eklenmesi
+                      await dbRef.push().set(notes);
+                    }
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Realtime Database\'e not kaydedildi')),
                     );
-      
+
                     _noteController.clear();
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(

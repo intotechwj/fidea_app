@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fidea_app/views/appbar_widget.dart';
 import 'package:fidea_app/views/drawer_widget.dart';
 import 'package:fidea_app/views/focus_page.dart';
+import 'package:fidea_app/views/note_view.dart'; // Not görünüm sayfasının yolu
+
+import 'notecard_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -65,7 +68,7 @@ class HomePage extends StatelessWidget {
                 final note = entry.value as Map<dynamic, dynamic>;
                 return {'id': entry.key, 'content': note['NOTE']};
               }));
-            }else{
+            } else {
               return const Center(child: Text('Henüz not yok'),);
             }
           }
@@ -80,8 +83,13 @@ class HomePage extends StatelessWidget {
             itemCount: notes.length,
             itemBuilder: (context, index) {
               final note = notes[index];
-              return NoteCard(
-                content: note['content'],
+              return GestureDetector(
+                onTap: () {
+                  _showNoteOptions(context, note['id'], note['content']);
+                },
+                child: NoteCard(
+                  content: note['content'],
+                ),
               );
             },
           );
@@ -89,26 +97,43 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-}
 
-class NoteCard extends StatelessWidget {
-  final String? content;
-
-  const NoteCard({super.key, this.content});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: Text(
-            content ?? 'Boş not',
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
+  void _showNoteOptions(BuildContext context, String noteId, String content) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Wrap(
+          children: <Widget>[
+            ListTile(
+              leading: const Icon(Icons.visibility),
+              title: const Text('Gör'),
+              onTap: () {
+               Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NoteView(noteId: noteId),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.edit),
+              title: const Text('Düzenle'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FocusPage(
+                      noteId: noteId,
+                      content: content,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

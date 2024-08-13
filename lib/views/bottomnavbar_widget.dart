@@ -15,20 +15,20 @@ class MyBottomNavBar extends StatelessWidget {
     return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
+          icon: Icon(Icons.center_focus_strong_outlined),
+          label: 'Focus',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          label: 'Search',
+          icon: Icon(Icons.control_point_duplicate_outlined),
+          label: 'Control',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.notifications),
-          label: 'Notifications',
+          icon: Icon(Icons.next_plan_outlined),
+          label: 'Plan',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.account_circle),
-          label: 'Profile',
+          icon: Icon(Icons.start_outlined),
+          label: 'Start',
         ),
       ],
       currentIndex: selectedIndex,
