@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:fidea_app/views/appbar_widget.dart';
 import 'package:fidea_app/views/bottomnavbar_widget.dart';
 import 'package:fidea_app/views/control_page.dart';
 import 'package:fidea_app/views/plan_page.dart';
 import 'package:fidea_app/views/start_page.dart';
-import 'package:flutter/material.dart';
+import 'package:fidea_app/views/focuspagecontent.dart'; // Yeni dosyayı import edin
 
 class FocusPage extends StatefulWidget {
   const FocusPage({super.key});
@@ -13,28 +14,33 @@ class FocusPage extends StatefulWidget {
 }
 
 class _FocusPageState extends State<FocusPage> {
-  // Sayfaları tanımlar
+  int _selectedIndex = 0;
+
   final List<Widget> _pages = [
-    const FocusPageContent(), // FocusPage içeriği başka bir widget olarak tanımlandı
+    const FocusPageContent(),
     const ControlPage(),
     const PlanPage(),
     const StartPage(),
   ];
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: 'Yeni'),
-      bottomNavigationBar: MyBottomNavBar(pages: _pages), // Sayfaları geçiyoruz
+      appBar: MyAppBar(
+        title: 'title',
+        backButton: BackButton(onPressed: Navigator.of(context).pop),
+      ),
+      body: _pages[_selectedIndex], // Seçilen sayfayı gösterir
+      bottomNavigationBar: MyBottomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
+      ),
     );
-  }
-}
-
-class FocusPageContent extends StatelessWidget {
-  const FocusPageContent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(color: Colors.lime);
   }
 }

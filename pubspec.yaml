@@ -40,8 +40,7 @@ dependencies:
   cupertino_icons: ^1.0.6
 
   #theme
-  json_theme: ^6.5.0+1
-
+  json_theme: ^6.5.0
   #firebase
   firebase_auth: ^5.1.4
   firebase_core: ^3.3.0

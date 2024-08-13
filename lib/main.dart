@@ -1,29 +1,43 @@
 import 'package:fidea_app/views/home_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:json_theme/json_theme.dart';
+//import 'package:json_theme/json_theme.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final themeStr = await rootBundle.loadString('assets/appainter_theme.json');
-  final themeJson = jsonDecode(themeStr);
-  final theme = ThemeDecoder.decodeThemeData(themeJson)!;
+  // Firebase'i başlatın
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyAzp5xgNHbpVywphMTGcN6c9KsAE5js_m8',
+      appId: '1:892223302158:android:f47a20082413fbe53bea5f',
+      messagingSenderId: '892223302158',
+      projectId: 'fidea-d859c',
+      storageBucket: 'fidea-d859c.appspot.com',
+    ),
+  );
 
-  runApp(MyApp(theme: theme));
+  // Tema dosyasını yükle
+ /* final themeStr = await rootBundle.loadString('assets/appainter_theme.json');
+  final themeJson = jsonDecode(themeStr);
+  final theme = ThemeDecoder.decodeThemeData(themeJson)!;*/
+
+  runApp(MyApp(/*theme: theme*/));
 }
 
 class MyApp extends StatelessWidget {
-  final ThemeData theme;
+  //final ThemeData theme;
 
-  const MyApp({super.key, required this.theme});
+  const MyApp({super.key, /*required this.theme*/});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: const HomePage(),
-        theme: theme);
+      debugShowCheckedModeBanner: false,
+      home: const HomePage(),
+      theme: ThemeData.dark(),
+    );
   }
 }

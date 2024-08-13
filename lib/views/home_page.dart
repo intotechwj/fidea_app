@@ -1,7 +1,8 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 import 'package:fidea_app/views/appbar_widget.dart';
 import 'package:fidea_app/views/drawer_widget.dart';
 import 'package:fidea_app/views/focus_page.dart';
-import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -10,21 +11,27 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        title: 'x',
+        title: 'Fidea',
       ),
       drawer: const MyDrawer(),
       floatingActionButton: Align(
         alignment: Alignment.bottomRight,
         child: SizedBox(
-          width: 130, // Buton genişliği
-          height: 40, // Buton yüksekliği
+          width: 130,
+          height: 40,
           child: FilledButton(
             onPressed: () {
-              // Yeni not oluşturma işlemini başlat
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FocusPage(), // FocusPage'i aç
+                ),
+              );
             },
             style: ButtonStyle(
               padding: WidgetStateProperty.all<EdgeInsets>(
-                  const EdgeInsets.symmetric(horizontal: 16)),
+                const EdgeInsets.symmetric(horizontal: 16),
+              ),
             ),
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -37,29 +44,70 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      body: GridView.count(
-        crossAxisCount: 3,
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => FocusPage()),
+      body: StreamBuilder<DatabaseEvent>(
+        stream: FirebaseDatabase.instance.ref('notes').onValue,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(child: Text('Hata: ${snapshot.error}'));
+          }
+
+          final notes = <Map<String, dynamic>>[];
+
+          if (snapshot.hasData) {
+            final data = snapshot.data!.snapshot.value as Map<dynamic, dynamic>?;
+
+            if (data != null) {
+              notes.addAll(data.entries.map((entry) {
+                final note = entry.value as Map<dynamic, dynamic>;
+                return {'id': entry.key, 'content': note['NOTE']};
+              }));
+            }else{
+              return const Center(child: Text('Henüz not yok'),);
+            }
+          }
+
+          return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 8.0,
+              mainAxisSpacing: 8.0,
+            ),
+            padding: const EdgeInsets.all(8.0),
+            itemCount: notes.length,
+            itemBuilder: (context, index) {
+              final note = notes[index];
+              return NoteCard(
+                content: note['content'],
               );
             },
-            child: Container(
-              color: Colors.red,
-              height: 100,
-            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class NoteCard extends StatelessWidget {
+  final String? content;
+
+  const NoteCard({super.key, this.content});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 5,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: Text(
+            content ?? 'Boş not',
+            textAlign: TextAlign.center,
           ),
-          SizedBox(
-            height: 100,
-          ),
-          Container(
-            color: Colors.amberAccent,
-            height: 100,
-          ),
-        ],
+        ),
       ),
     );
   }
