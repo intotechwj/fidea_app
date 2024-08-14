@@ -1,10 +1,7 @@
+import 'package:fidea_app/controller/general_controller.dart';
+import 'package:fidea_app/views/widgets/notesave_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:fidea_app/views/appbar_widget.dart';
-import 'package:fidea_app/views/bottomnavbar_widget.dart';
-import 'package:fidea_app/views/control_page.dart';
-import 'package:fidea_app/views/plan_page.dart';
-import 'package:fidea_app/views/start_page.dart';
-import 'package:fidea_app/views/focuspagecontent.dart';
+
 
 class FocusPage extends StatefulWidget {
   final String? noteId;
@@ -17,39 +14,25 @@ class FocusPage extends StatefulWidget {
 }
 
 class _FocusPageState extends State<FocusPage> {
-  int _selectedIndex = 0;
-
-  late final List<Widget> _pages;
+  late TextEditingController _noteController;
+  final GeneralController _controller = GeneralController();
 
   @override
   void initState() {
     super.initState();
-    _pages = [
-      FocusPageContent(noteId: widget.noteId, content: widget.content),
-      ControlPage(noteId: widget.noteId, content: widget.content), // Pass the parameters
-      PlanPage(noteId: widget.noteId, content: widget.content),
-      StartPage(noteId: widget.noteId),
-    ];
+    _noteController = _controller.createNoteController(widget.content);
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  @override
+  void dispose() {
+    _noteController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBar(
-        title: 'title',
-        backButton: BackButton(onPressed: Navigator.of(context).pop),
-      ),
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: MyBottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
-      ),
-    );
+    return NoteSaveWidget(noteController: _noteController, controller: _controller, noteId: widget.noteId, formatFunction: _controller.formatNotesForFocusPage);
   }
 }
+
+

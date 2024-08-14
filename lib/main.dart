@@ -1,9 +1,8 @@
 import 'package:fidea_app/views/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-//import 'package:json_theme/json_theme.dart';
-import 'package:flutter/services.dart';
-import 'dart:convert';
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -3,14 +3,32 @@ import 'package:flutter/material.dart';
 
 class NoteView extends StatelessWidget {
   final String? noteId;
+  final int plusCount;
+  final int minusCount;
 
-  const NoteView({super.key, this.noteId});
+  const NoteView({
+    super.key,
+    this.noteId,
+    required this.plusCount,
+    required this.minusCount,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Not Görüntüle'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Center(
+              child: Text(
+                '${((plusCount / (plusCount + minusCount)) * 100).toStringAsFixed(1)}% Bitti',
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

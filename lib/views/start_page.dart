@@ -1,8 +1,9 @@
+import 'package:fidea_app/views/noteview_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class StartPage extends StatefulWidget {
-  final String? noteId; // Belirli notun ID'si
+  final String? noteId;
 
   const StartPage({super.key, this.noteId});
 
@@ -34,7 +35,9 @@ class _StartPageState extends State<StartPage> {
       final notes = data['NOTE'] as String;
       setState(() {
         _lines = notes.split('\n');
-        _isChecked = List.generate(_lines.length, (index) => false);
+        _isChecked = List.generate(_lines.length, (index) {
+          return RegExp(r'^\+').hasMatch(_lines[index]);
+        });
       });
       return notes;
     } else {
@@ -53,17 +56,22 @@ class _StartPageState extends State<StartPage> {
       final index = entry.key;
       final line = entry.value;
 
-      if (line.isEmpty) return line; // Boş satırları olduğu gibi bırak
-      if (RegExp(r'^[a-zA-Z]').hasMatch(line)) {
-        // Satır bir harfle başlıyorsa, checkbox ekle
-        return (_isChecked[index] ? '+ ' : '') + line;
+      if (line.isEmpty) return line;
+      if (RegExp(r'^[+-]').hasMatch(line)) {
+        return (_isChecked[index] ? '+ ' : '-') + line.substring(1).trim();
       } else {
-        // Diğer satırlar olduğu gibi bırak
         return line;
       }
     }).join('\n');
-
     return formattedLines;
+  }
+
+  int countPlusLines() {
+    return _lines.where((line) => line.startsWith('+')).length;
+  }
+
+  int countMinusLines() {
+    return _lines.where((line) => line.startsWith('-')).length;
   }
 
   @override
@@ -82,8 +90,6 @@ class _StartPageState extends State<StartPage> {
               return Center(child: Text('Hata: ${snapshot.error}'));
             }
 
-            final notes = snapshot.data ?? '';
-
             return Column(
               children: [
                 Expanded(
@@ -91,19 +97,19 @@ class _StartPageState extends State<StartPage> {
                     itemCount: _lines.length,
                     itemBuilder: (context, index) {
                       final line = _lines[index];
-                      final showCheckbox = line.isNotEmpty && RegExp(r'^[a-zA-Z]').hasMatch(line);
+                      final showCheckbox = RegExp(r'^[+-]').hasMatch(line);
 
                       return showCheckbox
                           ? CheckboxListTile(
-                        title: Text(line),
-                        value: _isChecked[index],
-                        onChanged: (bool? value) {
-                          if (value != null) {
-                            _updateCheckbox(index, value);
-                          }
-                        },
-                      )
-                          : ListTile(title: Text(line)); // Checkbox gösterilmeden satırı göster
+                              title: Text(line.substring(1).trim()),
+                              value: _isChecked[index],
+                              onChanged: (bool? value) {
+                                if (value != null) {
+                                  _updateCheckbox(index, value);
+                                }
+                              },
+                            )
+                          : ListTile(title: Text(line));
                     },
                   ),
                 ),
@@ -111,14 +117,8 @@ class _StartPageState extends State<StartPage> {
                   onPressed: () async {
                     try {
                       final newFormattedNotes = formatNotes();
-
-                      Map<String, String> notesMap = {
-                        'NOTE': newFormattedNotes,
-                      };
-
                       final ref = FirebaseDatabase.instance.ref('notes/${widget.noteId}');
-                      await ref.update(notesMap);
-
+                      await ref.update({'NOTE': newFormattedNotes});
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Not güncellendi')),
                       );
@@ -129,6 +129,21 @@ class _StartPageState extends State<StartPage> {
                     }
                   },
                   child: const Text('Güncelle'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NoteView(
+                          noteId: widget.noteId,
+                          plusCount: countPlusLines(),
+                          minusCount: countMinusLines(),
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Text('Notu Görüntüle'),
                 ),
               ],
             );

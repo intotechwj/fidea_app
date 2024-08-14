@@ -4,7 +4,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Widget? backButton;
   final List<Widget>? actionWidgets;
-  MyAppBar(
+  const MyAppBar(
       {super.key, required this.title, this.backButton, this.actionWidgets});
 
   @override
