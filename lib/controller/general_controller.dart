@@ -3,7 +3,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class GeneralController {
-  final DatabaseReference dbRef = FirebaseDatabase.instance.ref().child('notes');
+  final DatabaseReference dbRef =
+      FirebaseDatabase.instance.ref().child('notes');
 
   TextEditingController createNoteController(String? content) {
     return TextEditingController(text: content);
@@ -20,29 +21,29 @@ class GeneralController {
       if (RegExp(r'^\d+|\*|[+-]').hasMatch(line)) {
         return line;
       } else {
-        return '$index) $line\n\n\n';
+        return '$index) $line\n';
       }
     }).join('\n');
   }
 
-String formatNotesForControlPage(String notes) {
-  final lines = notes.split('\n');
-  return lines.map((line) {
-    if (line.isEmpty) return line; // Boş satırları olduğu gibi bırak
-    if (RegExp(r'^\d+|\*|[+-]').hasMatch(line)) {
-      // Satır başında sayı, * veya +,- varsa satırı olduğu gibi döndür
-      return line;
-    } else {
-      // Diğer satırları * ile başlat
-      return '* $line';
-    }
-  }).join('\n');
-}
-
-    String formatNotesForPlanPage(String notes) {
+  String formatNotesForControlPage(String notes) {
     final lines = notes.split('\n');
     return lines.map((line) {
-      if (line.isEmpty) return line; 
+      if (line.isEmpty) return line; // Boş satırları olduğu gibi bırak
+      if (RegExp(r'^\d+|\*|[+-]').hasMatch(line)) {
+        // Satır başında sayı, * veya +,- varsa satırı olduğu gibi döndür
+        return line;
+      } else {
+        // Diğer satırları * ile başlat
+        return '* $line';
+      }
+    }).join('\n');
+  }
+
+  String formatNotesForPlanPage(String notes) {
+    final lines = notes.split('\n');
+    return lines.map((line) {
+      if (line.isEmpty) return line;
       if (RegExp(r'^\d+|\*|[+-]').hasMatch(line)) {
         // Satır bir sayı ile başlıyorsa
         return line;
@@ -51,7 +52,6 @@ String formatNotesForControlPage(String notes) {
       }
     }).join('\n');
   }
-
 
   Future<void> saveNote({
     required String? noteId,
@@ -84,4 +84,43 @@ String formatNotesForControlPage(String notes) {
       );
     }
   }
+
+    List<TextSpan> formatNotesForDisplay(String notes) {
+    final lines = notes.split('\n');
+    final spans = <TextSpan>[];
+
+    for (var line in lines) {
+      if (line.isEmpty) continue;
+
+      if (RegExp(r'^\d+').hasMatch(line)) {
+        // Sayı ile başlayan başlıklar
+        spans.add(
+          TextSpan(
+            text: '$line\n\n',
+            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+          ),
+        );
+      } else if (line.startsWith('*')) {
+        // * ile başlayan başlıklar
+        spans.add(
+          TextSpan(
+            text: '$line\n\n',
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+        );
+      } else {
+        // Diğer satırlar
+        spans.add(
+          TextSpan(
+            text: '$line\n\n',
+            style: const TextStyle(fontSize: 20), // Varsayılan font boyutu
+          ),
+        );
+      }
+    }
+
+    return spans;
+  }
+
+  
 }

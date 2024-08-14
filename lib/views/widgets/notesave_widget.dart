@@ -19,7 +19,7 @@ class NoteSaveWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(40.0),
+        padding: const EdgeInsets.all(25.0),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +33,7 @@ class NoteSaveWidget extends StatelessWidget {
                     border: InputBorder.none,
                     hintText: 'Buraya yazın...',
                   ),
-                  keyboardType: TextInputType.multiline,
+                  //keyboardType: TextInputType.multiline,
                 ),
               ),
               const SizedBox(height: 20),

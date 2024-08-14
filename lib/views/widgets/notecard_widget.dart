@@ -8,7 +8,7 @@ class NoteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5,
+      elevation: 10,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(

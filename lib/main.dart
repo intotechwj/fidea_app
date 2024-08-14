@@ -2,8 +2,6 @@ import 'package:fidea_app/views/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -19,17 +17,20 @@ void main() async {
   );
 
   // Tema dosyasını yükle
- /* final themeStr = await rootBundle.loadString('assets/appainter_theme.json');
+  /* final themeStr = await rootBundle.loadString('assets/appainter_theme.json');
   final themeJson = jsonDecode(themeStr);
   final theme = ThemeDecoder.decodeThemeData(themeJson)!;*/
 
-  runApp(MyApp(/*theme: theme*/));
+  runApp(const MyApp(/*theme: theme*/));
 }
 
 class MyApp extends StatelessWidget {
   //final ThemeData theme;
 
-  const MyApp({super.key, /*required this.theme*/});
+  const MyApp({
+    super.key,
+    /*required this.theme*/
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -19,12 +19,12 @@ class _StartPageState extends State<StartPage> {
   @override
   void initState() {
     super.initState();
-    _noteContent = fetchNoteContent(widget.noteId);
+    _noteContent = fetchNoteContentForStartPage(widget.noteId);
     _lines = [];
     _isChecked = [];
   }
 
-  Future<String> fetchNoteContent(String? noteId) async {
+  Future<String> fetchNoteContentForStartPage(String? noteId) async {
     if (noteId == null) return '';
 
     final ref = FirebaseDatabase.instance.ref('notes/$noteId');
