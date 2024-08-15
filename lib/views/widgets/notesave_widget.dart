@@ -33,7 +33,7 @@ class NoteSaveWidget extends StatelessWidget {
                     border: InputBorder.none,
                     hintText: 'Buraya yazın...',
                   ),
-                  //keyboardType: TextInputType.multiline,
+                    keyboardType: TextInputType.multiline,
                 ),
               ),
               const SizedBox(height: 20),

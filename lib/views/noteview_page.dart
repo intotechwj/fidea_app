@@ -8,14 +8,12 @@ class NoteView extends StatelessWidget {
   final int plusCount;
   final int minusCount;
 
-   NoteView({
+  NoteView({
     super.key,
     this.noteId,
     required this.plusCount,
     required this.minusCount,
   });
-  
-
 
   @override
   Widget build(BuildContext context) {

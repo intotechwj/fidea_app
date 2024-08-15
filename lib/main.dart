@@ -1,5 +1,6 @@
 import 'package:fidea_app/views/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -37,7 +38,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
-      theme: ThemeData.dark(),
+      theme: FlexThemeData.light(scheme: FlexScheme.ebonyClay),
+      darkTheme: FlexThemeData.dark(scheme: FlexScheme.ebonyClay),
+      themeMode: ThemeMode.system,
     );
   }
 }
