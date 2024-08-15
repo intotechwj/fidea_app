@@ -1,21 +1,30 @@
-import 'package:fidea_app/views/noteview_page.dart'; // Import NoteViewPage
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:fidea_app/views/newnote_page.dart';
+import 'package:fidea_app/views/noteview_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:fidea_app/model/note_model.dart';
-import '../views/newnote_page.dart';
+import '../../model/note_model.dart';
 
-class NoteController {
-  Stream<List<NoteModel>> fetchNotes() {
-    return FirebaseDatabase.instance.ref('notes').onValue.map((event) {
+part '../state/note_state.dart';
+
+class NoteCubit extends Cubit<NoteState> {
+  NoteCubit() : super(NoteInitial());
+
+  void fetchNotes() {
+    emit(NoteLoading());
+    FirebaseDatabase.instance.ref('notes').onValue.listen((event) {
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
-
       if (data != null) {
-        return data.entries.map((entry) {
+        final notes = data.entries.map((entry) {
           return NoteModel.fromMap(entry.value, entry.key);
         }).toList();
+        emit(NoteLoaded(notes));
       } else {
-        return [];
+        emit(NoteEmpty());
       }
+    }).onError((error) {
+      emit(NoteError('Hata: $error'));
     });
   }
 
@@ -45,10 +54,6 @@ class NoteController {
         );
       },
     );
-  }
-
-  int countLinesStartingWith(String content, String prefix) {
-    return content.split('\n').where((line) => line.startsWith(prefix)).length;
   }
 
   void showViewOptions(BuildContext context, String noteId, String content) {
@@ -145,5 +150,9 @@ class NoteController {
         );
       },
     );
+  }
+
+  int countLinesStartingWith(String content, String prefix) {
+    return content.split('\n').where((line) => line.startsWith(prefix)).length;
   }
 }

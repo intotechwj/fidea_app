@@ -19,12 +19,12 @@ class _StartPageState extends State<StartPage> {
   @override
   void initState() {
     super.initState();
-    _noteContent = fetchNoteContentForStartPage(widget.noteId);
+    _noteContent = fetchNoteContent(widget.noteId);
     _lines = [];
     _isChecked = [];
   }
 
-  Future<String> fetchNoteContentForStartPage(String? noteId) async {
+  Future<String> fetchNoteContent(String? noteId) async {
     if (noteId == null) return '';
 
     final ref = FirebaseDatabase.instance.ref('notes/$noteId');
@@ -51,7 +51,7 @@ class _StartPageState extends State<StartPage> {
     });
   }
 
-  String formatNotes() {
+  String formatNotesForStartPage() {
     final formattedLines = _lines.asMap().entries.map((entry) {
       final index = entry.key;
       final line = entry.value;
@@ -116,7 +116,7 @@ class _StartPageState extends State<StartPage> {
                 ElevatedButton(
                   onPressed: () async {
                     try {
-                      final newFormattedNotes = formatNotes();
+                      final newFormattedNotes = formatNotesForStartPage();
                       final ref = FirebaseDatabase.instance.ref('notes/${widget.noteId}');
                       await ref.update({'NOTE': newFormattedNotes});
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -136,7 +136,7 @@ class _StartPageState extends State<StartPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => NoteView(
-                          noteId: widget.noteId,
+                          noteId: widget.noteId!,
                           plusCount: countPlusLines(),
                           minusCount: countMinusLines(),
                         ),

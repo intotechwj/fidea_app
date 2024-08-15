@@ -1,14 +1,12 @@
-import 'package:fidea_app/controller/general_controller.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class NoteView extends StatelessWidget {
-  final GeneralController _controller = GeneralController();
   final String? noteId;
   final int plusCount;
   final int minusCount;
 
-  NoteView({
+  const NoteView({
     super.key,
     this.noteId,
     required this.plusCount,
@@ -46,7 +44,7 @@ class NoteView extends StatelessWidget {
             }
 
             final notes = snapshot.data ?? '';
-            final formattedNotes = _controller.formatNotesForDisplay(notes);
+            final formattedNotes = formatNotesForDisplay(notes);
 
             return SingleChildScrollView(
               child: RichText(
@@ -73,5 +71,42 @@ class NoteView extends StatelessWidget {
     } else {
       return '';
     }
+  }
+
+  List<TextSpan> formatNotesForDisplay(String notes) {
+    final lines = notes.split('\n');
+    final spans = <TextSpan>[];
+
+    for (var line in lines) {
+      if (line.isEmpty) continue;
+
+      if (RegExp(r'^\d+').hasMatch(line)) {
+        // Sayı ile başlayan başlıklar
+        spans.add(
+          TextSpan(
+            text: '$line\n\n',
+            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+          ),
+        );
+      } else if (line.startsWith('*')) {
+        // * ile başlayan başlıklar
+        spans.add(
+          TextSpan(
+            text: '$line\n\n',
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+        );
+      } else {
+        // Diğer satırlar
+        spans.add(
+          TextSpan(
+            text: '$line\n\n',
+            style: const TextStyle(fontSize: 18), // Varsayılan font boyutu
+          ),
+        );
+      }
+    }
+
+    return spans;
   }
 }

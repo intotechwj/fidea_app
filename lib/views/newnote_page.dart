@@ -3,12 +3,11 @@ import 'package:fidea_app/views/control_page.dart';
 import 'package:fidea_app/views/plan_page.dart';
 import 'package:fidea_app/views/start_page.dart';
 import 'package:fidea_app/views/focus_page.dart';
-import 'package:fidea_app/views/widgets/appbar_widget.dart';
 
 class NewnotePage extends StatelessWidget {
   final String? noteId;
   final String? content;
-  final String pageType; // Page type parameter to determine which page to show
+  final String pageType;
 
   const NewnotePage({
     super.key,
@@ -20,7 +19,6 @@ class NewnotePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget page;
-
     switch (pageType) {
       case 'Focus':
         page = FocusPage(noteId: noteId, content: content);
@@ -35,13 +33,13 @@ class NewnotePage extends StatelessWidget {
         page = StartPage(noteId: noteId);
         break;
       default:
-        page = const Center(child: Text('Unknown Page Type'));
+        page = const Center(child: Text('Bilinmeyen Sayfa Türü'));
     }
 
     return Scaffold(
-      appBar: MyAppBar(
-        title: '$pageType Page', // Update the title based on pageType
-        backButton: BackButton(onPressed: Navigator.of(context).pop),
+      appBar: AppBar(
+        title: Text('$pageType Sayfası'),
+        leading: BackButton(onPressed: () => Navigator.of(context).pop()),
       ),
       body: page,
     );
