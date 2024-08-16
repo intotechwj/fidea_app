@@ -15,7 +15,7 @@ class NoteCard extends StatelessWidget {
           child: Text(
             content,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16), // İçerik yazı tipi boyutu
+            style: const TextStyle(fontSize: 16), 
           ),
         ),
       ),

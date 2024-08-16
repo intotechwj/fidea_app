@@ -1,4 +1,5 @@
-import 'package:fidea_app/views/newnote_page.dart';
+import 'package:fidea_app/text/apptext.dart';
+import 'package:fidea_app/views/pages/newnote_page.dart';
 import 'package:flutter/material.dart';
 
 class CustomFloatingActionButtonWidget extends StatelessWidget {
@@ -9,14 +10,14 @@ class CustomFloatingActionButtonWidget extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Yeni Not Sayfası Seçin'),
+          title: const Text('${TextCRUD.newNote} ${ TextCRUD.createNote}'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                _buildPageOption(context, 'Focus', 'Focus Page'),
-                _buildPageOption(context, 'Control', 'Control Page'),
-                _buildPageOption(context, 'Plan', 'Plan Page'),
-                _buildPageOption(context, 'Start', 'Start Page'),
+                _buildPageOption(context, PagesFidea.focus, '${PagesFidea.focus} ${TextCRUD.createNote}'),
+                _buildPageOption(context, PagesFidea.control, '${ PagesFidea.control} ${TextCRUD.createNote}'),
+                _buildPageOption(context, PagesFidea.plan, '${PagesFidea.plan} ${TextCRUD.createNote}'),
+                _buildPageOption(context, PagesFidea.start, '${PagesFidea.start} ${TextCRUD.createNote}'),
               ],
             ),
           ),
@@ -59,7 +60,7 @@ class CustomFloatingActionButtonWidget extends StatelessWidget {
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Yeni not'),
+              Text(TextCRUD.newNote),
               SizedBox(width: 8),
               Icon(Icons.add),
             ],

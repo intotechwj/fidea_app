@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fidea_app/views/newnote_page.dart';
-import 'package:fidea_app/views/noteview_page.dart';
+import 'package:fidea_app/text/apptext.dart';
+import 'package:fidea_app/views/pages/newnote_page.dart';
+import 'package:fidea_app/views/pages/noteview_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import '../../model/note_model.dart';
@@ -36,17 +37,17 @@ class NoteCubit extends Cubit<NoteState> {
           children: <Widget>[
             ListTile(
               leading: const Icon(Icons.visibility),
-              title: const Text('Gör'),
+              title: const Text(TextCRUD.show),
               onTap: () {
-                Navigator.pop(context); // Close the bottom sheet
+                Navigator.pop(context); 
                 showViewOptions(context, noteId, content);
               },
             ),
             ListTile(
               leading: const Icon(Icons.edit),
-              title: const Text('Düzenle'),
+              title: const Text(TextCRUD.setUp),
               onTap: () {
-                Navigator.pop(context); // Close the bottom sheet
+                Navigator.pop(context); 
                 showEditOptions(context, noteId, content);
               },
             ),
@@ -80,16 +81,16 @@ class NoteCubit extends Cubit<NoteState> {
           children: <Widget>[
             ListTile(
               leading: const Icon(Icons.center_focus_strong_outlined),
-              title: const Text('Focus Düzenle'),
+              title: const Text('${PagesFidea.focus} ${TextCRUD.setUp}'),
               onTap: () {
-                Navigator.pop(context); // Close the bottom sheet
+                Navigator.pop(context); 
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => NewnotePage(
                       noteId: noteId,
                       content: content,
-                      pageType: 'Focus',
+                      pageType: PagesFidea.focus,
                     ),
                   ),
                 );
@@ -97,16 +98,16 @@ class NoteCubit extends Cubit<NoteState> {
             ),
             ListTile(
               leading: const Icon(Icons.control_point_duplicate_outlined),
-              title: const Text('Control Düzenle'),
+              title: const Text('${PagesFidea.control} ${TextCRUD.setUp}'),
               onTap: () {
-                Navigator.pop(context); // Close the bottom sheet
+                Navigator.pop(context); 
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => NewnotePage(
                       noteId: noteId,
                       content: content,
-                      pageType: 'Control',
+                      pageType: PagesFidea.control,
                     ),
                   ),
                 );
@@ -114,16 +115,16 @@ class NoteCubit extends Cubit<NoteState> {
             ),
             ListTile(
               leading: const Icon(Icons.featured_play_list_outlined),
-              title: const Text('Plan Düzenle'),
+              title: const Text('${PagesFidea.plan} ${TextCRUD.setUp}'),
               onTap: () {
-                Navigator.pop(context); // Close the bottom sheet
+                Navigator.pop(context); 
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => NewnotePage(
                       noteId: noteId,
                       content: content,
-                      pageType: 'Plan',
+                      pageType: PagesFidea.plan,
                     ),
                   ),
                 );
@@ -131,16 +132,16 @@ class NoteCubit extends Cubit<NoteState> {
             ),
             ListTile(
               leading: const Icon(Icons.start_outlined),
-              title: const Text('Start Düzenle'),
+              title: const Text('${PagesFidea.start} ${TextCRUD.setUp}'),
               onTap: () {
-                Navigator.pop(context); // Close the bottom sheet
+                Navigator.pop(context); 
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => NewnotePage(
                       noteId: noteId,
                       content: content,
-                      pageType: 'Start',
+                      pageType: PagesFidea.start,
                     ),
                   ),
                 );

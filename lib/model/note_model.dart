@@ -1,3 +1,5 @@
+import 'package:fidea_app/text/apptext.dart';
+
 class NoteModel {
   final String id;
   final String content;
@@ -7,7 +9,7 @@ class NoteModel {
   factory NoteModel.fromMap(Map<dynamic, dynamic> data, String id) {
     return NoteModel(
       id: id,
-      content: data['NOTE'] ?? '',
+      content: data[DBCollections.noteValue] ?? '',
     );
   }
 }
@@ -22,7 +24,7 @@ class Note {
 
   Map<String, String> toMap() {
     return {
-      'NOTE': content,
+      DBCollections.noteValue: content,
     };
   }
 }

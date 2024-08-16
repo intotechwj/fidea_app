@@ -1,4 +1,5 @@
 import 'package:fidea_app/controller/general_controller.dart';
+import 'package:fidea_app/text/apptext.dart';
 import 'package:flutter/material.dart';
 
 class NoteSaveWidget extends StatelessWidget {
@@ -31,7 +32,7 @@ class NoteSaveWidget extends StatelessWidget {
                   maxLines: 25,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'Buraya yazın...',
+                    hintText: TextCRUD.typeHere,
                   ),
                     keyboardType: TextInputType.multiline,
                 ),
@@ -46,7 +47,7 @@ class NoteSaveWidget extends StatelessWidget {
                     formatFunction: formatFunction,
                   );
                 },
-                child: const Text('Kaydet'),
+                child: const Text(TextCRUD.save),
               ),
             ],
           ),

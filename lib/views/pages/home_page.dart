@@ -1,10 +1,10 @@
 import 'package:fidea_app/bloc/cubit/note_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../views/widgets/appbar_widget.dart';
-import '../views/widgets/drawer_widget.dart';
-import '../views/widgets/floatingactionbutton_widget.dart';
-import '../views/widgets/notecard_widget.dart';
+import '../widgets/appbar_widget.dart';
+import '../widgets/drawer_widget.dart';
+import '../widgets/floatingactionbutton_widget.dart';
+import '../widgets/notecard_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -44,7 +44,9 @@ class HomePage extends StatelessWidget {
                   final note = state.notes[index];
                   return GestureDetector(
                     onTap: () {
-                      context.read<NoteCubit>().showNoteOptions(context, note.id, note.content);
+                      context
+                          .read<NoteCubit>()
+                          .showNoteOptions(context, note.id, note.content);
                     },
                     child: NoteCard(content: note.content),
                   );

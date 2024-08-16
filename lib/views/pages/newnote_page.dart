@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fidea_app/views/control_page.dart';
-import 'package:fidea_app/views/plan_page.dart';
-import 'package:fidea_app/views/start_page.dart';
-import 'package:fidea_app/views/focus_page.dart';
+import 'package:fidea_app/views/pages/control_page.dart';
+import 'package:fidea_app/views/pages/plan_page.dart';
+import 'package:fidea_app/views/pages/start_page.dart';
+import 'package:fidea_app/views/pages/focus_page.dart';
 
 class NewnotePage extends StatelessWidget {
   final String? noteId;
