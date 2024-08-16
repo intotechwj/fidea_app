@@ -54,6 +54,7 @@ dependencies:
   bloc: ^8.1.4
   #routing
   go_router: ^14.2.3
+  provider: ^6.1.2
   
   
 
