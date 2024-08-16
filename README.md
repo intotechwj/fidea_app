@@ -9,5 +9,7 @@ Fidea combines the power of focus and ideas to revolutionize your note-taking pr
     Plan: Turn your subheadings into actionable items. This stage helps you break down your ideas into manageable tasks and create a clear action plan.
 
     Start: Track your progress. Organize and manage your tasks, marking items as complete and monitoring your progress toward your goals.
-![Screenshot_20240816_171505-min](https://github.com/user-attachments/assets/ae6cd991-3822-4f78-ae1f-8681601d7320)
-![Screenshot_20240816_171544-min](https://github.com/user-attachments/assets/76a7a8b2-1baf-49b4-aa65-fdb10e876d55)
+
+    
+![Screenshot_20240816_171505-min](https://github.com/user-attachments/assets/24444747-01c1-4ebd-aee3-e43c82c418f6)
+![Screenshot_20240816_171544-min](https://github.com/user-attachments/assets/2883e9f9-0f7c-46e5-a6a6-1877a4b42a02)
