@@ -10,6 +10,8 @@ Fidea combines the power of focus and ideas to revolutionize your note-taking pr
 
     Start: Track your progress. Organize and manage your tasks, marking items as complete and monitoring your progress toward your goals.
 
-    
-![Screenshot_20240816_171544-min](https://github.com/user-attachments/assets/7137c329-6b24-4a28-9d83-89dd429b46d8)
+#Screenshots
+
 ![Screenshot_20240816_171505-min](https://github.com/user-attachments/assets/8129b264-abe0-49e9-80c9-477a93b73d8f)
+![Screenshot_20240816_171544-min](https://github.com/user-attachments/assets/7137c329-6b24-4a28-9d83-89dd429b46d8)
+
